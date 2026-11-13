@@ -206,7 +206,7 @@ h1, h2, h3, h4, h5, h6, .h1pre, .fs-4, .content-heading, .panel-title,
 }
 nav .lbbuttonsel, nav .lbbuttonsel2,
 #page_leftbar .lbbuttonsel, #page_leftbar .lbbuttonsel2,
-#page_leftbar .nav-link.active, #page_leftbar .nav-link.lbbuttonsel {
+#page_leftbar .nav-link.lbbuttonsel {
   color: var(--om-accent) !important;
   background-color: var(--om-bg) !important;
   box-shadow: inset 3px 0 0 var(--om-accent);
@@ -312,8 +312,12 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #p2AccountSecurity a, #p2AccountActions a, [id^="p2"] div[style*="margin-left:25px"] a {
   display: inline-block; padding: 1px 0; font-size: .9rem;
 }
-[id^="p2"] div[style*="margin-left:25px"] a::before { content: "\203A "; color: var(--om-subtle); }
-[id^="p2"] div[style*="margin-left:25px"] a:hover::before { color: var(--om-accent); }
+/* both lists (security uses an inline margin, actions uses .mL) get the same indent and marker */
+#p2AccountSecurity div[style*="margin-left:25px"], #p2AccountActions .mL { margin-left: 0 !important; padding-left: 14px !important; }
+#p2AccountSecurity a::before, #p2AccountActions .mL a::before { content: "\203A  "; color: var(--om-subtle); }
+#p2AccountSecurity a:hover::before, #p2AccountActions .mL a:hover::before { color: var(--om-accent); }
+/* "Device Groups" label, same style as the other section labels */
+#p2logintokens + strong { color: var(--om-muted) !important; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
 
 /* ---- Device-group cards (My Account) */
 #column_l .card .row.g-0 { align-items: center; min-height: 64px; }
