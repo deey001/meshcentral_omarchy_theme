@@ -32,7 +32,7 @@ MeshCentral serves files from `meshcentral-web/public/` ahead of its own, so the
 `node_modules/meshcentral`, and MeshCentral updates leave them in place. The folder sits next to `meshcentral-data/`.
 
 ```bash
-cd /tmp && git clone https://github.com/<your-account>/meshcentral_omarchy_theme && cd meshcentral_omarchy_theme
+cd /tmp && git clone https://github.com/deey001/meshcentral_omarchy_theme && cd meshcentral_omarchy_theme
 sudo ./install.sh /opt/meshcentral                        # install / update
 sudo ./install.sh /opt/meshcentral --default tokyo-night  # also set a default theme
 sudo ./install.sh /opt/meshcentral --uninstall            # remove
