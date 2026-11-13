@@ -290,16 +290,40 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 .g1, .g1t, .g2, .g2t, .h1, .h2, .e2, .bar, .bar18, .sbar,
 .night .g1, .night .g1t, .night .g2, .night .g2t, .night .h1, .night .h2, .night .e2,
 .night .bar, .night .bar18, .night .sbar, .style10, .night .style10, .style10s, .night .style10s {
+  /* leftover decoration strips from the classic UI: make them invisible so they
+     don't paint patches behind text, cards and link lists */
   background-image: none !important;
-  background-color: var(--om-surface0) !important;
-  color: var(--om-fg) !important;
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
 }
-.g1, .g1t, .h1 { box-shadow: inset 2px 0 0 var(--om-accent); }
-.sbar, .style10s, .night .style10s { background-color: var(--om-surface1) !important; }
 .style4, .style6, .night .style6, .style11, .style14, .night .style14, .auto-style1, .night .auto-style1,
 .h2end {
-  background-color: var(--om-mantle) !important; color: var(--om-fg) !important; background-image: none !important;
+  background-color: transparent !important; color: var(--om-fg) !important; background-image: none !important;
 }
+
+/* ---- Page typography: mono reads heavy at large sizes, so tone headings down */
+#column_l h1, #column_l .fs-4, #column_l h1.fs-4 { font-size: 1.35rem !important; font-weight: 700 !important; letter-spacing: -.02em; }
+#column_l h1::before, #column_l .fs-4::before { content: "# "; color: var(--om-accent); font-weight: 400; }
+#column_l p > strong, #column_l .h1pre { color: var(--om-muted) !important; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+#column_l h5, #column_l .card-title { font-size: .95rem !important; }
+
+/* ---- Account page link lists: tighter, with a prompt marker on hover */
+#p2AccountSecurity a, #p2AccountActions a, [id^="p2"] div[style*="margin-left:25px"] a {
+  display: inline-block; padding: 1px 0; font-size: .9rem;
+}
+[id^="p2"] div[style*="margin-left:25px"] a::before { content: "\203A "; color: var(--om-subtle); }
+[id^="p2"] div[style*="margin-left:25px"] a:hover::before { color: var(--om-accent); }
+
+/* ---- Device-group cards (My Account) */
+#column_l .card .row.g-0 { align-items: center; min-height: 64px; }
+#column_l .card .row > *, #column_l .card .parent, #column_l .card .card-body { background: transparent !important; }
+#column_l .card .card-title { color: var(--om-fg) !important; font-weight: 600 !important; margin: 0 0 2px 0 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#column_l .card .card-text { color: var(--om-muted) !important; font-size: .78rem !important; margin: 0 !important; }
+#column_l .card .card-body { padding: 10px 12px 10px 0 !important; }
+#column_l .card .mi { transform: scale(.8); opacity: .9; }
+#column_l .col-sm-12 > .card { margin-bottom: 0 !important; transition: border-color .12s, background-color .12s; }
+#column_l .col-sm-12:hover > .card { border-color: var(--om-accent) !important; background: var(--om-surface1) !important; box-shadow: inset 3px 0 0 var(--om-accent) !important; }
 
 .filelist:hover, .night .filelist:hover, .traceEvent:hover {
   background-color: var(--om-surface1) !important;
