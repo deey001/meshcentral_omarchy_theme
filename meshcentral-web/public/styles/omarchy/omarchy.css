@@ -299,12 +299,16 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #xdevices div.DevSt > a[role="button"]:hover, #xdevices div.DevSt > a[role="button"]:focus-visible {
   color: var(--om-accent) !important; border-color: var(--om-accent) !important;
 }
+/* one even highlight for the whole device row, instead of the stock per-cell hover patches */
+#xdevices #devs:hover, #xdevices #devs:focus-within { background-color: var(--om-surface0) !important; }
 .devHeaderx { color: var(--om-muted) !important; background: transparent !important; font-size: .8rem; font-weight: 400 !important; }
 
 /* Group headers: the stock grey gradient strips become flat bars with an accent tick */
 .g1, .g1t, .g2, .g2t, .h1, .h2, .e2, .bar, .bar18, .sbar,
 .night .g1, .night .g1t, .night .g2, .night .g2t, .night .h1, .night .h2, .night .e2,
-.night .bar, .night .bar18, .night .sbar, .style10, .night .style10, .style10s, .night .style10s {
+.night .bar, .night .bar18, .night .sbar, .style10, .night .style10, .style10s, .night .style10s,
+/* hover variants MeshCentral adds from JS (devMouseHover, eventMouseHover, userMouseHover2) */
+.g1s, .g2s, .e2s, .e2t, .night .g1s, .night .g2s, .night .e2s, .night .e2t, .baricon, .night .baricon {
   /* leftover decoration strips from the classic UI: make them invisible so they
      don't paint patches behind text, cards and link lists */
   background-image: none !important;
