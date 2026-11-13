@@ -1,0 +1,10 @@
+/* JetBrains Mono (SIL Open Font License 1.1, see fonts/OFL.txt), bundled so the
+   Omarchy look works on machines that do not have it installed. */
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: local("JetBrains Mono"), local("JetBrainsMono-Regular"), url("fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 500; font-display: swap;
+  src: local("JetBrains Mono Medium"), local("JetBrainsMono-Medium"), url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 600; font-display: swap;
+  src: local("JetBrains Mono SemiBold"), local("JetBrainsMono-SemiBold"), url("fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap;
+  src: local("JetBrains Mono Bold"), local("JetBrainsMono-Bold"), url("fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2"); }

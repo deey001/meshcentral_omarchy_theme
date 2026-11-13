@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- Omarchy for MeshCentral — login page preview. Mirrors login2.handlebars markup (inline styles included). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Omarchy Login Preview</title>
+  <link id="om-palette" rel="stylesheet" href="../meshcentral-web/public/styles/omarchy/palettes/tokyo-night.css">
+  <link rel="stylesheet" href="../meshcentral-web/public/styles/omarchy/login.css">
+  <script src="palettes.js"></script>
+  <style>
+    /* the stock login2 inline <style> block */
+    html, body { height: 100%; margin: 0; }
+    #body { background-color: cadetblue; background: linear-gradient(to bottom right, #369, #036); font-family: Arial, Helvetica, sans-serif; color: #fff; }
+    #centralTable { width: 100%; }
+    #logincell { text-align: center; vertical-align: middle; }
+    #loginpanel { display: inline-block !important; padding: 30px 40px; background: #FFF; color: #000; border-radius: 6px; }
+    #footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 6px 0; text-align: center; font-size: 12px; background: #113962; }
+    #pv { position: fixed; top: 10px; right: 10px; font: 12px var(--om-font); }
+  </style>
+</head>
+<body id="body" class="arg_hide login">
+  <div id="backgroundImage" style="position:absolute;left:0;bottom:0;z-index:-1;height:60%;width:100%;opacity:0.1;background-repeat:no-repeat;background-position:left bottom;background-size:contain"></div>
+  <table id="centralTable" class="container" style="height:100%;z-index:1">
+    <tr>
+      <td id="logincell">
+        <div style="font-size:46px;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding-bottom:10px;color:#c8c8c8;text-shadow: 2px 2px 2px #000;">MeshCentral</div>
+        <div id="loginpanel" style="box-shadow:1px 1px 4px #000">
+          <form id="loginpanelform">
+            <div id="message1" style="padding-bottom:8px">Invalid login attempt.</div>
+            <table style="width:100%">
+              <tr><td><input id="username" style="box-sizing:border-box;width:280px;border:0;border-radius:4px;padding:8px;background-color:#FFF8CC" placeholder="Username" type="text"></td></tr>
+              <tr><td style="padding-top:6px"><input id="password" style="box-sizing:border-box;width:280px;border:0;border-radius:4px;padding:8px;background-color:#FFF8CC" placeholder="Password" type="password"></td></tr>
+              <tr><td style="padding-top:10px"><input id="loginButton" style="box-sizing:border-box;width:280px;border:0;border-radius:4px;padding:6px" type="button" value="Log In"></td></tr>
+            </table>
+            <div id="hrAccountDiv"><hr></div>
+            <div id="resetAccountDiv" style="padding:2px">Forgot username/password? <a href="#">Reset account</a>.</div>
+            <div id="newAccountDiv" style="padding:2px;padding-top:10px">Don&#39;t have an account? <a href="#">Create one</a>.</div>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div id="footer"><span id="flink"><a href="#">Terms &amp; Privacy</a></span></div>
+  <div id="pv"><a href="index.html">&larr; app preview</a></div>
+  <script>
+    (function () {
+      var id = new URLSearchParams(location.search).get('theme') || 'tokyo-night';
+      if (!window.OMARCHY_PALETTES[id]) id = 'tokyo-night';
+      document.getElementById('om-palette').href = '../meshcentral-web/public/styles/omarchy/palettes/' + id + '.css';
+      document.querySelector('#pv a').href = 'index.html?theme=' + id;
+    })();
+  </script>
+</body>
+</html>

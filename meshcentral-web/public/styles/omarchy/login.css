@@ -1,0 +1,116 @@
+/*
+ * Omarchy for MeshCentral — login page (login2.handlebars).
+ * Injected by scripts/custom.js together with the palette of the theme
+ * this browser last picked. The login page has no Bootstrap, and much of
+ * its styling is inline, hence the !important rules.
+ */
+@import url("fonts.css");
+
+:root {
+  --om-font: "JetBrains Mono", "JetBrainsMono Nerd Font", "CaskaydiaMono Nerd Font", "Cascadia Mono",
+             "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --om-radius: 0px;
+  --om-window-width: 2px;
+}
+
+#body.login, html:has(#body.login) {
+  background: var(--om-bg) !important;
+  color: var(--om-fg) !important;
+  font-family: var(--om-font) !important;
+}
+#body.login ::selection { background: var(--om-sel-bg); color: var(--om-sel-fg); }
+#body.login #backgroundImage { display: none !important; }
+
+/* Title: "MeshCentral" in big mono with an accent block, no drop shadow */
+#body.login #logincell > div[style*="font-size:46px"] {
+  color: var(--om-fg) !important;
+  text-shadow: none !important;
+  font-family: var(--om-font) !important;
+  font-size: 34px !important;
+  letter-spacing: -.02em;
+}
+#body.login #logincell > div[style*="font-size:46px"]::before {
+  content: "";
+  display: inline-block;
+  width: .5em; height: .5em; margin-right: .45em;
+  background: var(--om-accent);
+  vertical-align: .05em;
+}
+#body.login #logincell > div[style*="font-size:46px"] sup { color: var(--om-muted) !important; font-size: 14px !important; }
+
+/* Panels are Hyprland windows: flat, square, accent border */
+#body.login #loginpanel, #body.login #createpanel, #body.login #resetpanel, #body.login #tokenpanel,
+#body.login #resettokenpanel, #body.login #resetpasswordpanel, #body.login #checkemailpanel,
+#body.login #waitpushpanel, #body.login #messagepanel, #body.login #emailverifypanel {
+  background: var(--om-mantle) !important;
+  color: var(--om-fg) !important;
+  border: var(--om-window-width) solid var(--om-window) !important; border-image: var(--om-window-image) 1 !important;
+  border-radius: var(--om-radius) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .35) !important;
+  backdrop-filter: none !important;
+  font-family: var(--om-font) !important;
+}
+#body.login #loginpanel *, #body.login #createpanel *, #body.login #resetpanel *, #body.login #tokenpanel * {
+  font-family: var(--om-font) !important;
+}
+#body.login hr { border: 0; border-top: 1px solid var(--om-border) !important; }
+#body.login a, #body.login a:visited { color: var(--om-accent-text) !important; text-decoration: none !important; }
+#body.login a:hover { color: var(--om-accent-hover) !important; }
+
+/* Inputs (inline: background-color:#FFF8CC; border-radius:4px) */
+#body.login input[type="text"], #body.login input[type="password"], #body.login input[type="email"],
+#body.login input[type="number"], #body.login textarea, #body.login select, #body.login #showPassHintLink {
+  background-color: var(--om-bg) !important;
+  color: var(--om-fg) !important;
+  border: 1px solid var(--om-border) !important;
+  border-radius: var(--om-radius) !important;
+  caret-color: var(--om-cursor);
+  outline: none !important;
+}
+#body.login input::placeholder { color: var(--om-subtle) !important; }
+#body.login input[type="text"]:focus, #body.login input[type="password"]:focus,
+#body.login input[type="email"]:focus, #body.login input[type="number"]:focus {
+  border-color: var(--om-accent) !important;
+  box-shadow: 0 0 0 1px var(--om-accent) !important;
+}
+
+/* Buttons */
+#body.login input[type="button"], #body.login input[type="submit"], #body.login button {
+  background-color: var(--om-accent) !important;
+  color: var(--om-on-accent) !important;
+  border: 1px solid var(--om-accent) !important;
+  border-radius: var(--om-radius) !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+}
+#body.login input[type="button"]:hover, #body.login input[type="submit"]:hover, #body.login button:hover {
+  background-color: var(--om-accent-hover) !important;
+  border-color: var(--om-accent-hover) !important;
+}
+#body.login input[type="button"]:disabled, #body.login input[type="submit"]:disabled {
+  background-color: var(--om-surface1) !important; color: var(--om-muted) !important; border-color: var(--om-border) !important;
+}
+#body.login input[type="checkbox"] { accent-color: var(--om-accent); }
+
+/* Messages and callouts */
+#body.login #message1, #body.login #message2, #body.login #message3, #body.login #message4 { color: var(--om-red-text) !important; }
+#body.login #passwordPolicyCallout, #body.login #rpasswordPolicyCallout {
+  background: var(--om-bg) !important; color: var(--om-fg) !important;
+  border: 1px solid var(--om-accent) !important; border-radius: 0 !important; box-shadow: none !important;
+}
+#body.login #welcomeText, #body.login #welcomeText * { color: var(--om-muted) !important; }
+#body.login #welcomeText a { color: var(--om-accent-text) !important; }
+
+/* SSO buttons */
+#body.login #authStrategies img, #body.login .userAuthStrategyLogo {
+  background: var(--om-bg) !important; border: 1px solid var(--om-border) !important; border-radius: 0 !important;
+}
+#body.login .userAuthStrategyLogo:hover { border-color: var(--om-accent) !important; }
+
+/* Footer bar */
+#body.login #footer, #body.login #footer td, #body.login .footer1, #body.login .footer2 {
+  background: var(--om-mantle) !important; color: var(--om-muted) !important;
+}
+#body.login #footer { border-top: 1px solid var(--om-border); }
+#body.login #footer a, #body.login #flink a { color: var(--om-muted) !important; }
+#body.login #footer a:hover, #body.login #flink a:hover { color: var(--om-accent) !important; }
