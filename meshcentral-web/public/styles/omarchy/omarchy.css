@@ -282,9 +282,24 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #p10html2 .altBack { background-color: var(--om-surface0) !important; }
 
 /* Device-group heading row in the device list */
-#xdevices div.DevSt { border-bottom: 1px solid var(--om-border-strong) !important; }
-#xdevices #MxMESH { color: var(--om-accent-text) !important; font-weight: 600; }
-.devHeaderx { color: var(--om-muted) !important; background: transparent !important; }
+#xdevices div.DevSt { border-bottom: 1px solid var(--om-border-strong) !important; padding: 6px 2px 4px !important; font-weight: 400 !important; }
+#xdevices div.DevSt > i[role="button"] { color: var(--om-subtle) !important; font-size: .8em; margin-right: 4px; }
+#xdevices div.DevSt > i[role="button"]:hover { color: var(--om-accent) !important; }
+#xdevices #MxMESH { color: var(--om-accent-text) !important; font-weight: 600; margin-right: 10px; }
+/* "Add Agent" / "Invite" / "Add Local"...: small muted chips, so they don't read as part of the group name */
+#xdevices div.DevSt > a[role="button"] {
+  display: inline-block; vertical-align: 1px;
+  margin-left: 4px; padding: 0 6px;
+  font-size: .7rem; font-weight: 500 !important; line-height: 1.5;
+  text-transform: uppercase; letter-spacing: .05em; text-decoration: none !important;
+  color: var(--om-muted) !important;
+  border: 1px solid var(--om-border) !important;
+  background: transparent !important;
+}
+#xdevices div.DevSt > a[role="button"]:hover, #xdevices div.DevSt > a[role="button"]:focus-visible {
+  color: var(--om-accent) !important; border-color: var(--om-accent) !important;
+}
+.devHeaderx { color: var(--om-muted) !important; background: transparent !important; font-size: .8rem; font-weight: 400 !important; }
 
 /* Group headers: the stock grey gradient strips become flat bars with an accent tick */
 .g1, .g1t, .g2, .g2t, .h1, .h2, .e2, .bar, .bar18, .sbar,
