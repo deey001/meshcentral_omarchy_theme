@@ -297,7 +297,7 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
    count on one centred line with identical space above and below. */
 #xdevices div.DevSt {
   display: flex !important; align-items: center; gap: 6px;
-  min-height: 34px; padding: 0 8px 0 4px !important; margin: 0 !important;
+  min-height: 26px; padding: 0 8px 0 4px !important; margin: 0 !important;
   border-bottom: 1px solid var(--om-border) !important; font-weight: 400 !important;
 }
 #xdevices div.DevSt > span[style*="float"] { order: 99; margin-left: auto; float: none !important; }
@@ -820,7 +820,7 @@ body.is-mobile .mobile-submenu-arrow:hover, body.is-mobile .mobile-submenu-arrow
 /* group heading rows */
 #xdevices div.DevSt {
   border-bottom: 1px solid var(--om-border) !important;
-  padding: 9px 4px 7px 4px !important;
+  padding: 4px 4px 3px 4px !important;
   line-height: 1.4;
 }
 #xdevices div.DevSt:hover { background: var(--om-surface0) !important; }
