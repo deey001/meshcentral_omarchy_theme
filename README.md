@@ -90,8 +90,31 @@ Override these in `styles/custom.css`. MeshCentral loads that file after the the
   --om-font: "Segoe UI", system-ui, sans-serif;  /* if mono feels too dense */
   --om-radius: 4px;                               /* 0 is pure Omarchy */
   --om-window-width: 1px;                         /* dialog/menu border */
+  --om-text: 15px;                                /* base text size, default 14px */
 }
 ```
+
+### Larger text
+
+Text uses one compact scale built on `--om-text` (14px, the size Omarchy uses in its
+terminal and menus). Anyone who needs bigger text can use the browser's zoom:
+**Ctrl +** to enlarge, **Ctrl -** to shrink, **Ctrl 0** to reset. The browser remembers
+the zoom per site. To raise the default for everyone, set `--om-text` as shown above.
+
+## Reverting
+
+Each release is tagged, so you can go back to any earlier version:
+
+```bash
+cd /tmp/meshcentral_omarchy_theme
+git tag                                   # list versions
+git checkout v1.0-pre-compact             # go back to that version
+sudo ./install.sh /opt/meshcentral        # reinstall it
+git checkout main                         # later: return to the latest version
+```
+
+To remove the theme entirely and go back to stock MeshCentral:
+`sudo ./install.sh /opt/meshcentral --uninstall`.
 
 The stock MeshCentral logo banner is hidden in the masthead. To bring back a logo of your own:
 `#masthead { background-image: url(../logo.png) !important; }`.

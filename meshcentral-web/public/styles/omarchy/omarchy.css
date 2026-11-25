@@ -11,6 +11,9 @@
  *   --om-font        swap to a sans font if mono feels too dense
  *   --om-radius      0 is pure Omarchy; try 4px for softer corners
  *   --om-window-width  border width of dialogs and menus ("active window" border)
+ *   --om-text        base text size (14px, like Omarchy's terminal and menus); everything
+ *                    else scales from it. Users who need bigger text use the browser's
+ *                    own zoom (Ctrl + / Ctrl - / Ctrl 0), which scales the whole theme.
  */
 @import url("fonts.css");
 
@@ -20,7 +23,15 @@
   --om-radius: 0px;
   --om-window-width: 2px;
   --om-gap: 10px;
+  --om-text: 14px;          /* base size; rem units below all follow it */
+  --om-text-sm: .9rem;      /* dense lists: device rows, tables */
 }
+
+/* ================================================================ Type scale
+ * Compact, terminal-sized type everywhere. MeshCentral mixes 13px, 14px, "medium"
+ * and "large" inline sizes; these rules bring them onto one scale. */
+html { font-size: var(--om-text) !important; }
+body, .night { font-size: 1rem !important; line-height: 1.45; }
 
 /* ================================================================ Bootstrap variables */
 :root, :root[data-bs-theme], [data-bs-theme] {
@@ -299,6 +310,19 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #xdevices div.DevSt > a[role="button"]:hover, #xdevices div.DevSt > a[role="button"]:focus-visible {
   color: var(--om-accent) !important; border-color: var(--om-accent) !important;
 }
+/* Device rows: one size for every cell (stock mixes 14px names with 16px user/address
+   cells and "medium"/"large" bars), tabular digits, secondary columns muted */
+#xdevices td, #xdevices #devs, #xdevices #devs .style10, #xdevices .bar18,
+#xdevices #devs .e1t, #xdevices #devs .e2t {
+  font-size: var(--om-text-sm) !important; line-height: 1.5;
+}
+#xdevices td { padding-top: 1px !important; padding-bottom: 1px !important; font-variant-numeric: tabular-nums; }
+#xdevices tr > td:not(:first-child) { color: var(--om-muted) !important; }
+#xdevices tr > td:not(:first-child) a { color: var(--om-muted) !important; }
+#xdevices #devs .style10 { color: var(--om-fg) !important; }
+#xdevices div.DevSt { font-size: var(--om-text-sm) !important; margin-top: 6px; }
+#xdevices th { font-size: .72rem !important; }
+
 /* one even highlight for the whole device row, instead of the stock per-cell hover patches */
 #xdevices #devs:hover, #xdevices #devs:focus-within { background-color: var(--om-surface0) !important; }
 .devHeaderx { color: var(--om-muted) !important; background: transparent !important; font-size: .8rem; font-weight: 400 !important; }
