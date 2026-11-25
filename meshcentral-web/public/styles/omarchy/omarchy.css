@@ -292,33 +292,6 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #p10html2 table, #notesPanel table { background: transparent !important; }
 #p10html2 .altBack { background-color: var(--om-surface0) !important; }
 
-/* Device-group heading row in the device list */
-/* Group header: a Waybar-style row. Flex keeps chevron, name, chips and the node
-   count on one centred line with identical space above and below. */
-#xdevices div.DevSt {
-  display: flex !important; align-items: center; gap: 6px;
-  min-height: 34px; padding: 0 8px 0 4px !important; margin: 0 !important;
-  border-bottom: 1px solid var(--om-border) !important; font-weight: 400 !important;
-}
-#xdevices div.DevSt > span[style*="float"] { order: 99; margin-left: auto; float: none !important; }
-#xdevices div.DevSt:hover { background-color: var(--om-surface0) !important; }
-#xdevices td:has(> div.DevSt), #xdevices td:has(> div > div.DevSt) { padding: 0 !important; }
-#xdevices div.DevSt > i[role="button"] { color: var(--om-subtle) !important; font-size: .75em; width: 1.1em; }
-#xdevices div.DevSt > i[role="button"]:hover { color: var(--om-accent) !important; }
-#xdevices #MxMESH { color: var(--om-accent-text) !important; font-weight: 600; margin-right: 6px; }
-/* "Add Agent" / "Invite" / "Add Local"...: small muted chips, so they don't read as part of the group name */
-#xdevices div.DevSt > a[role="button"] {
-  display: inline-block; vertical-align: 1px;
-  margin-left: 4px; padding: 0 6px;
-  font-size: .7rem; font-weight: 500 !important; line-height: 1.5;
-  text-transform: uppercase; letter-spacing: .05em; text-decoration: none !important;
-  color: var(--om-muted) !important;
-  border: 1px solid var(--om-border) !important;
-  background: transparent !important;
-}
-#xdevices div.DevSt > a[role="button"]:hover, #xdevices div.DevSt > a[role="button"]:focus-visible {
-  color: var(--om-accent) !important; border-color: var(--om-accent) !important;
-}
 /* Device rows: one size for every cell (stock mixes 14px names with 16px user/address
    cells and "medium"/"large" bars), tabular digits, secondary columns muted */
 #xdevices td, #xdevices #devs, #xdevices #devs .style10, #xdevices .bar18,
@@ -329,20 +302,7 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #xdevices tr > td:not(:first-child) { color: var(--om-muted) !important; }
 #xdevices tr > td:not(:first-child) a { color: var(--om-muted) !important; }
 #xdevices #devs .style10 { color: var(--om-fg) !important; }
-#xdevices div.DevSt { font-size: var(--om-text-sm) !important; }
-#xdevices div.DevSt > a[role="button"] { margin-left: 0 !important; }
 
-/* Footer under the list ("Add Device Group  MeshCmd  Router"): same chips as the headers */
-#xdevices > div[style*="border-top-style"] {
-  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
-  margin-top: 0 !important; padding: 10px 4px !important;
-  border-top: 1px solid var(--om-border) !important; font-size: 0 !important; /* hides the &nbsp; spacers */
-}
-#xdevices > div[style*="border-top-style"] > a {
-  font-size: .7rem; padding: 2px 8px; text-transform: uppercase; letter-spacing: .05em; text-decoration: none !important;
-  color: var(--om-muted) !important; border: 1px solid var(--om-border);
-}
-#xdevices > div[style*="border-top-style"] > a:hover { color: var(--om-accent) !important; border-color: var(--om-accent); }
 #xdevices th { font-size: .72rem !important; }
 
 /* one even highlight for the whole device row, instead of the stock per-cell hover patches */
@@ -742,110 +702,274 @@ body.is-mobile .mobile-submenu-arrow:hover, body.is-mobile .mobile-submenu-arrow
 }
 
 /* ================================================================
- * Omarchy desktop layout
- * Waybar-style slim top bar; the left bar and the main area become
- * tiled Hyprland windows with gaps, sitting on the darker "wallpaper".
- * The main area is the focused window (accent border).
+ * Omarchy desktop layout (Hyprland + Waybar)
+ * Values from Omarchy's own config: Waybar 26px / 12px font,
+ * gaps_out 10, gaps_in 5 (10px between windows), border_size 2,
+ * rounding 0, terminal padding 14px.
+ * Grid areas (MeshCentral 1.3 default3):
+ *   "header header" / "sidebar nav" / "sidebar content" / "sidebar footer"
  * ================================================================ */
-:root { --om-bar-h: 38px; }
+:root { --om-bar-h: 26px; --om-gap: 10px; --om-pad: 14px; --om-inactive: var(--om-border-strong); }
 
 .fullscreen #container, .fullscreen.nofooter #container {
   background: var(--om-crust) !important;
-  grid-template-rows: var(--om-bar-h) auto 1fr 0 !important;
-  padding: 0 var(--om-gap) var(--om-gap) var(--om-gap);
-  box-sizing: border-box;
+  grid-template-columns: 52px minmax(0, 1fr) !important;
+  grid-template-rows: calc(var(--om-bar-h) + var(--om-gap)) auto minmax(0, 1fr) 0 !important;
+  column-gap: var(--om-gap) !important; row-gap: 0 !important;
+  padding: 0 var(--om-gap) var(--om-gap) var(--om-gap) !important;
+  box-sizing: border-box; height: 100vh;
 }
 .fullscreen #footer { display: none !important; }
 
-/* Waybar */
+/* ---- Waybar: full-width solid strip, theme background, 12px mono */
 .fullscreen #masthead {
-  height: var(--om-bar-h) !important;
-  min-height: 0 !important;
-  padding: 0 4px !important;
-  background: transparent !important;
-  border: 0 !important;
+  align-self: start;
+  height: var(--om-bar-h) !important; min-height: 0 !important;
+  margin: 0 calc(-1 * var(--om-gap)) !important; width: auto !important; max-width: none !important; justify-self: stretch;
+  padding: 0 8px 0 12px !important;
+  background: var(--om-bg) !important; border: 0 !important;
+  display: flex !important; align-items: center !important;
+  font-size: 12px !important; line-height: 1 !important; overflow: hidden;
 }
-#masthead .masthead-titles-container { flex-direction: row !important; align-items: baseline; gap: 10px; }
-#masthead .title { font-size: 13px !important; font-weight: 700 !important; letter-spacing: 0; }
-#masthead .title2 { font-size: 12px !important; }
-#masthead .masthead-title img, #masthead img:not(#userDropdownImage) { max-height: 22px; }
-#userDropdownButton { padding: 2px 8px !important; font-size: 12px; }
-#userDropdownImage { width: 20px !important; height: 20px !important; }
+#masthead .masthead-left, #masthead .masthead-right, #masthead .masthead-titles-container,
+#masthead .user-menu-container {
+  height: var(--om-bar-h) !important; margin: 0 !important; padding: 0 !important;
+  display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px;
+}
+#masthead .masthead-left { flex: 1 1 auto; min-width: 0; }
+#masthead .masthead-title:empty { display: none !important; }
+#masthead .title, #masthead .title2 { margin: 0 !important; padding: 0 !important; line-height: 1 !important; }
+#masthead .title { font-size: 12px !important; font-weight: 700 !important; letter-spacing: 0 !important; }
+#masthead .title::before { width: 8px !important; height: 8px !important; margin-right: 8px !important; vertical-align: 0 !important; }
+#masthead .title2 { font-size: 12px !important; color: var(--om-muted) !important; }
+#masthead img:not(#userDropdownImage) { max-height: 16px; }
+#userDropdownButton {
+  height: var(--om-bar-h); padding: 0 6px !important; margin: 0 !important;
+  font-size: 12px !important; line-height: 1 !important; border: 0 !important; background: transparent !important;
+  display: flex !important; align-items: center; gap: 6px;
+}
+#userDropdownButton:hover { color: var(--om-accent) !important; }
+#userDropdownImage { width: 16px !important; height: 16px !important; margin: 0 !important; }
+#om-clock {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 12px; color: var(--om-fg); white-space: nowrap; pointer-events: none;
+}
 
-/* Windows */
+/* ---- Windows: 2px square borders, inactive = muted, focused = accent */
 .fullscreen #page_leftbar {
+  grid-area: sidebar;
+  width: auto !important; height: auto !important; min-height: 0;
+  margin: 0 !important; padding: 6px 0 !important; box-sizing: border-box;
   background: var(--om-bg) !important;
-  border: 2px solid var(--om-border) !important;
-  margin-right: var(--om-gap);
-  box-sizing: border-box;
-  height: auto !important;
-  padding-top: 6px;
+  border: 2px solid var(--om-inactive) !important;
+  overflow: hidden;
 }
-.fullscreen #page_leftbar > div:first-child { display: none; }   /* stock 24px spacer */
-.fullscreen #container { grid-template-columns: calc(56px + var(--om-gap)) 1fr !important; }
-#page_leftbar .nav-link { padding: 12px 0 !important; font-size: 15px; }
-#page_leftbar .nav-link .svg-inline--fa { width: 20px; height: 20px; }
+.fullscreen #page_leftbar > div:first-child { display: none !important; }   /* stock spacer */
+#page_leftbar .nav { gap: 2px; }
+#page_leftbar .nav-link {
+  height: 40px; padding: 0 !important; margin: 0 !important; width: 100%;
+  display: flex !important; align-items: center; justify-content: center;
+  font-size: 15px !important; border: 0 !important; border-left: 2px solid transparent !important;
+  background: transparent !important; color: var(--om-subtle) !important;
+}
+#page_leftbar .nav-link .svg-inline--fa, #page_leftbar .nav-link i { width: 16px !important; height: 16px !important; font-size: 16px !important; }
+#page_leftbar .nav-link:hover { color: var(--om-fg) !important; background: var(--om-surface0) !important; }
+#page_leftbar .nav-link.active, #page_leftbar .nav-link.lbbuttonsel, #page_leftbar .nav-link.lbbuttonsel2 {
+  color: var(--om-accent) !important; border-left-color: var(--om-accent) !important; background: var(--om-surface0) !important;
+  box-shadow: none !important;
+}
 
+/* main window = #topbar (tabs) + #column_l (content), drawn as one focused window */
 .fullscreen #topbar {
+  min-height: 0 !important; margin: 0 !important; padding: 0 var(--om-pad) !important;
   background: var(--om-bg) !important;
-  border: 2px solid var(--om-window); border-image: var(--om-window-image) 1;
-  border-bottom: 0 !important;
-  min-height: 2px;
+  border: 2px solid var(--om-window) !important; border-bottom: 0 !important;
+  border-image: var(--om-window-image) 1 !important;
 }
 .fullscreen #column_l {
+  min-height: 0; margin: 0 !important;
+  padding: var(--om-pad) calc(var(--om-pad) + 4px) 0 calc(var(--om-pad) + 4px) !important;
   background: var(--om-bg) !important;
-  border: 2px solid var(--om-window) !important; border-image: var(--om-window-image) 1 !important;
-  border-top: 0 !important;
-  padding: 14px 18px 0 18px !important;
-  margin: 0 !important;
-  min-height: 0;
+  border: 2px solid var(--om-window) !important; border-top: 0 !important;
+  border-image: var(--om-window-image) 1 !important;
+  overflow: auto;
 }
-/* the stock heights assume the old 66px header + footer */
-#xdevices, #xdevicesmap, #p10info, #p2info { max-height: calc(100vh - var(--om-bar-h) - 130px) !important; }
+.fullscreen #column_l_bottomgap { display: none; }
+/* the stock scroll heights assume the old 66px header and footer */
+#xdevices, #xdevicesmap, #p10info, #p2info { max-height: none !important; }
+#xdevices { overflow: visible !important; }
 
-/* Tabs inside the window read like a tmux status line */
+/* tabs inside the main window read like a tmux status line */
 .fullscreen #topbar .style3x, .fullscreen #topbar .style3sel, .fullscreen #topbar .style3 {
-  background: transparent !important; padding: 6px 14px !important; font-size: 12px;
+  background: transparent !important; padding: 6px 12px !important; font-size: 12px !important;
 }
 
-/* ================================================================ Device list polish */
-#column_l h1, #column_l .fs-4 { margin: 0 0 6px 0 !important; }
-#devListToolbarSpan { background: transparent !important; padding: 6px 0 !important; gap: 6px; border-bottom: 1px solid var(--om-border); }
-#devListToolbarSpan .btn, #devListToolbarSpan .form-select, #devListToolbarSpan .form-control {
-  height: 28px !important; padding-top: 2px !important; padding-bottom: 2px !important; font-size: 12px !important;
-}
-#devListToolbarViewIcons .fa-layers, #devListToolbarViewIcons span[role=button] { color: var(--om-subtle) !important; }
+/* ================================================================ Device list: TUI-style */
+#p1title { margin: 0 0 10px 0 !important; min-height: 0 !important; }
+#p1title h1, #column_l h1.fs-4 { font-size: 15px !important; line-height: 22px !important; margin: 0 !important; letter-spacing: 0 !important; }
+#devListToolbarViewIcons { gap: 2px; }
+#devListToolbarViewIcons span[role=button] { padding: 3px 5px !important; color: var(--om-subtle) !important; }
 #devListToolbarViewIcons span[role=button]:hover { color: var(--om-fg) !important; }
 
-/* group heading rows */
-#xdevices div.DevSt {
+#devListToolbarSpan {
+  gap: 6px; padding: 0 0 10px 0 !important; margin: 0 !important;
+  background: transparent !important; border-bottom: 1px solid var(--om-border) !important;
+}
+#devListToolbarSpan > *:not(.ms-auto) { margin-top: 0 !important; margin-bottom: 0 !important; }
+#devListToolbar, #devListToolbarSpan > .ms-auto { gap: 6px; }
+#devListToolbar > *, #devListToolbarSpan > .ms-auto > * { margin: 0 !important; }
+#devListToolbarSpan .btn, #devListToolbarSpan .form-select, #devListToolbarSpan .form-control,
+#devListToolbarSpan input[type=text], #devListToolbarSpan select, #devListToolbarSpan button {
+  height: 26px !important; min-height: 0 !important; line-height: 1 !important;
+  padding: 0 10px !important; font-size: 12px !important; border-radius: 0 !important;
+}
+#devListToolbarSpan .form-select, #devListToolbarSpan select { padding-right: 26px !important; background-position: right 8px center !important; }
+#devListToolbarSpan label, #devListToolbarSpan span { font-size: 12px !important; }
+#devListToolbarSpan input[type=checkbox] { width: 13px; height: 13px; margin: 0 6px 0 0 !important; float: none !important; flex: 0 0 auto; }
+#devListToolbarSpan .form-check, #devListToolbarSpan div:has(> input[type=checkbox]), #devListToolbarSpan span:has(> input[type=checkbox]) {
+  display: inline-flex !important; align-items: center; min-height: 0 !important; margin: 0 0 0 8px !important; padding: 0 !important;
+}
+#devListToolbarSpan label { margin: 0 !important; line-height: 1 !important; cursor: pointer; }
+
+/* group headings: one rule for both markups (div.DevSt in list/table, td.DevSt in icon views) */
+#xdevices .DevSt {
+  display: flex !important; align-items: center; gap: 8px;
+  height: 32px; min-height: 0 !important; margin: 0 !important;
+  padding: 0 6px 0 6px !important;
+  background: transparent !important;
+  border: 0 !important; border-bottom: 1px solid var(--om-border) !important;
+  font-size: 12px !important; font-weight: 400 !important; line-height: 1 !important;
+}
+#xdevices .DevSt:hover { background: var(--om-surface0) !important; }
+#xdevices td:has(> .DevSt), #xdevices td:has(> div > .DevSt) { padding: 0 !important; }
+#xdevices tr:has(> td.DevSt) { display: block; }
+#xdevices td.DevSt { width: 100%; }
+#xdevices .DevSt > .svg-inline--fa, #xdevices .DevSt > i[role="button"] {
+  order: 0; flex: 0 0 auto; width: 10px !important; height: 10px !important; font-size: 10px !important;
+  margin: 0 !important; padding: 0 !important; color: var(--om-subtle) !important; cursor: pointer;
+}
+#xdevices .DevSt > .svg-inline--fa:hover, #xdevices .DevSt > i[role="button"]:hover { color: var(--om-accent) !important; }
+#xdevices .DevSt #MxMESH, #xdevices .DevSt > span:not(.devHeaderx):not([style*="float"]):not(:has(a)) {
+  order: 1; color: var(--om-fg) !important; font-weight: 700 !important; margin: 0 !important;
+  text-decoration: none !important; white-space: nowrap;
+}
+#xdevices .DevSt #MxMESH:hover { color: var(--om-accent) !important; }
+#xdevices .DevSt > span:empty { display: none !important; }
+#xdevices .DevSt .devHeaderx, #xdevices .DevSt > span[style*="float"] {
+  order: 99; margin-left: auto !important; float: none !important;
+  font-size: 11px !important; color: var(--om-subtle) !important;
+}
+/* Add Agent / Invite / Add Local: quiet text actions shown on hover, like a TUI keyhint */
+#xdevices .DevSt > span:has(> a[role="button"]) { order: 2; display: inline-flex; align-items: center; gap: 12px; font-size: 0; }
+#xdevices .DevSt a[role="button"] {
+  order: 2; display: inline-flex !important; align-items: center;
+  margin: 0 0 0 6px !important; padding: 0 !important; height: auto !important;
+  font-size: 11px !important; font-weight: 400 !important; line-height: 1 !important;
+  text-transform: lowercase !important; letter-spacing: 0 !important; text-decoration: none !important;
+  color: var(--om-subtle) !important; background: transparent !important; border: 0 !important;
+  opacity: 0; transition: opacity .1s, color .1s;
+}
+#xdevices .DevSt a[role="button"]::before { content: "+ "; white-space: pre; }
+#xdevices .DevSt:hover a[role="button"], #xdevices .DevSt a[role="button"]:focus-visible { opacity: 1; }
+#xdevices .DevSt a[role="button"]:hover { color: var(--om-accent) !important; }
+
+/* "No devices in this device group, add one." */
+#xdevices div[style*="padding:10px"], #xdevices div[style*="padding:10px"] > i {
+  font-style: normal !important; font-size: 12px !important; line-height: 1 !important; color: var(--om-subtle) !important;
+}
+#xdevices div[style*="padding:10px"] { padding: 10px 0 10px 24px !important; margin: 0 !important; }
+#xdevices table:has(td.DevSt) { padding: 0 !important; }
+#xdevices div[style*="padding:10px"] a { color: var(--om-accent-text) !important; text-decoration: none !important; }
+
+/* device rows: div#devs sits in the first cell; USER / ADDRESS / CONNECTIVITY are sibling cells */
+#xdevices th {
+  height: 26px; padding: 0 8px !important; font-size: 10px !important; font-weight: 400 !important;
+  letter-spacing: .08em; color: var(--om-subtle) !important; background: transparent !important;
   border-bottom: 1px solid var(--om-border) !important;
-  padding: 9px 4px 7px 4px !important;
-  line-height: 1.4;
 }
-#xdevices div.DevSt:hover { background: var(--om-surface0) !important; }
-#xdevices #MxMESH { color: var(--om-fg) !important; font-weight: 600 !important; font-size: 13px; text-decoration: none !important; }
-#xdevices div.DevSt > .svg-inline--fa, #xdevices div.DevSt > i { color: var(--om-subtle) !important; width: 14px; margin-right: 6px; }
-#xdevices div.DevSt .devHeaderx { font-size: 11px; color: var(--om-subtle) !important; }
-
-/* "Add Agent / Invite" etc.: quiet text actions that appear on hover */
-#xdevices div.DevSt a[role="button"] {
-  all: unset;
-  margin-left: 12px !important;
-  font-size: 11px !important;
-  color: var(--om-subtle) !important;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity .12s, color .12s;
+#xdevices td > #devs {
+  display: flex !important; align-items: center; gap: 8px;
+  height: 30px !important; padding: 0 0 0 4px; font-size: 12px !important;
+  background: transparent !important; outline: none;
 }
-#xdevices div.DevSt a[role="button"]::before { content: "+ "; }
-#xdevices div.DevSt:hover a[role="button"], #xdevices div.DevSt a[role="button"]:focus-visible { opacity: 1; }
-#xdevices div.DevSt a[role="button"]:hover { color: var(--om-accent) !important; }
+#xdevices td > #devs .g1, #xdevices td > #devs .g2 { display: none !important; }
+#xdevices td > #devs .deviceBarCheckbox, #xdevices td > #devs .deviceBarIcon {
+  float: none !important; width: auto !important; height: auto !important; margin: 0 !important; padding: 0 !important;
+  display: flex; align-items: center;
+}
+#xdevices td > #devs .deviceBarCheckbox input { margin: 0 !important; width: 13px; height: 13px; }
+#xdevices td > #devs .deviceBarIcon > div { margin: 0 !important; }
+#xdevices td > #devs .style10 {
+  max-height: none !important; font-size: 12px !important; line-height: 1 !important;
+  color: var(--om-fg) !important; padding: 0 !important; margin: 0 !important;
+}
+#xdevices td > #devs .style10:hover { color: var(--om-accent) !important; }
+#xdevices tr:has(#devs) > td {
+  height: 30px; padding: 0 8px !important; vertical-align: middle !important;
+  font-size: 12px !important; line-height: 1 !important; color: var(--om-muted) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--om-border) 55%, transparent) !important;
+}
+#xdevices tr:has(#devs) > td:first-child { padding: 0 !important; }
+#xdevices tr:has(#devs) > td * { font-size: 12px !important; }
+#xdevices tr:has(#devs) > td a { color: var(--om-muted) !important; text-decoration: none !important; }
+#xdevices tr:has(#devs):hover > td { background: var(--om-surface0) !important; }
+#xdevices td > #devs:hover { background: var(--om-surface0) !important; }
 
-/* device rows */
-#xdevices tr.DevSt, #xdevices .DevSt + table tr { border-bottom: 0 !important; }
-#xdevices tr.DevSt td, #xdevices table td { padding-top: 5px !important; padding-bottom: 5px !important; border-bottom: 1px solid color-mix(in srgb, var(--om-border) 55%, transparent) !important; }
-#xdevices tr:hover > td { background: var(--om-surface0) !important; }
-#xdevices td a, #xdevices .DevSt a:not([role]) { color: var(--om-fg) !important; text-decoration: none !important; }
-#xdevices td a:hover { color: var(--om-accent) !important; }
-#xdevices th { font-size: 10px !important; color: var(--om-subtle) !important; padding: 6px 4px !important; border-bottom: 1px solid var(--om-border) !important; }
+/* footer links under the list */
+#xdevices > div[style*="border-top-style"] {
+  display: flex; gap: 16px; align-items: center;
+  padding: 10px 0 14px 6px !important; margin: 0 !important;
+  border-top: 0 !important; font-size: 0 !important;
+}
+#xdevices > div[style*="border-top-style"] > a {
+  font-size: 11px !important; padding: 0 !important; border: 0 !important;
+  text-transform: lowercase !important; letter-spacing: 0 !important;
+  color: var(--om-subtle) !important; text-decoration: none !important;
+}
+#xdevices > div[style*="border-top-style"] > a::before { content: "+ "; white-space: pre; }
+#xdevices > div[style*="border-top-style"] > a:hover { color: var(--om-accent) !important; }
+
+/* ================================================================ Sub-menus, user menu, server page */
+#topbar [id$="SubMenuSpan"], #topbar [id$="SubMenu"], #topbar table.style1, #topbar .style1 {
+  background: transparent !important; border: 0 !important;
+}
+#topbar [id$="SubMenuSpan"] { border-bottom: 1px solid var(--om-border) !important; margin: 0 !important; }
+#topbar .topbar_td, #topbar [id$="SubMenu"] td { background: transparent !important; font-size: 12px !important; padding: 8px 14px !important; }
+#topbar [id$="SubMenu"] td:first-child { padding-left: 4px !important; }
+#topbar .style3sel, #topbar td.fullselect, #topbar [id$="SubMenu"] td.style3sel {
+  color: var(--om-accent) !important; box-shadow: inset 0 -2px 0 var(--om-accent) !important;
+}
+#masthead .masthead-right, #masthead .masthead-right > *, #masthead .user-menu-container,
+#masthead .dropdown, #masthead .dropdown-toggle { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+
+#p6 { font-size: 12px; }
+#p6 td, #p6 div:not([class*="modal"]):not(.fs-4), #p6 span { font-size: 12px !important; line-height: 1.6; }
+#p6 strong, #p6 .h2 { font-size: 13px !important; }
+#p6 #p2ServerActions strong { font-size: 11px !important; }
+#p6 td { padding: 4px 8px !important; }
+#serverWarnings > div { color: var(--om-red-text) !important; padding: 2px 0 !important; }
+#serverWarnings b { font-weight: 400 !important; }
+#p6 .serverStateTableCell { background: transparent !important; border-bottom: 1px solid var(--om-border) !important; margin: 0 !important; }
+#userDropdown { background: transparent !important; }
+#masthead #userDropdown:hover { background: var(--om-surface0) !important; }
+
+/* tables inside windows sit on the window background (Bootstrap paints them white) */
+#column_l .table, #column_l .table > :not(caption) > * > * {
+  --bs-table-bg: transparent; --bs-table-accent-bg: transparent;
+  background-color: transparent !important; color: var(--om-fg);
+}
+#column_l .table > :not(caption) > * > * { border-bottom-color: var(--om-border) !important; font-size: 12px; padding: 7px 8px; }
+#column_l .table th { color: var(--om-subtle) !important; font-weight: 400 !important; font-size: 10px !important; letter-spacing: .08em; text-transform: uppercase; }
+#column_l .table-hover > tbody > tr:hover > * { background-color: var(--om-surface0) !important; --bs-table-bg-state: transparent; }
+
+/* ================================================================ Device page + consistent page titles */
+#column_l h1, #column_l .fs-4, #column_l h1.fs-4 { font-size: 15px !important; line-height: 22px !important; letter-spacing: 0 !important; }
+#p10html .row { margin-bottom: 0 !important; min-height: 24px; align-items: center; }
+#p10html .row > * { font-size: 12px !important; color: var(--om-fg) !important; }
+#p10html .row > :first-child { color: var(--om-muted) !important; font-weight: 400 !important; }
+#column_l .table > :not(caption) > * > * { box-shadow: none !important; color: var(--om-fg) !important; }
+#column_l .table tr { background-color: transparent !important; }
+#column_l .table-striped > tbody > tr:nth-of-type(odd) > * { background-color: var(--om-surface0) !important; }
+#column_l .table thead th, #column_l .table tr:first-child > th { color: var(--om-subtle) !important; }
+#p10html3 a, .p10html3left a, .p10html3right a { margin-right: 16px; font-size: 12px; text-decoration: none !important; }
+#p10html3 a:last-child { margin-right: 0; }

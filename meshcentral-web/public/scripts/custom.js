@@ -62,6 +62,22 @@
       }
     }).observe(html, { attributes: true, attributeFilter: ["data-bs-theme"] });
 
+    // Waybar-style clock in the middle of the top bar ("Wednesday 15:25"), Omarchy theme only.
+    document.addEventListener("DOMContentLoaded", function () {
+      var bar = document.getElementById("masthead");
+      if (!bar || document.getElementById("om-clock")) return;
+      var el = document.createElement("span");
+      el.id = "om-clock";
+      bar.appendChild(el);
+      function tick() {
+        if (!active()) { el.textContent = ""; return; }
+        var d = new Date();
+        el.textContent = d.toLocaleDateString(undefined, { weekday: "long" }) + " " +
+          ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+      }
+      tick(); setInterval(tick, 10000);
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
       var origShow = window.account_showThemesSwitcher;
       if (typeof origShow !== "function") return;
