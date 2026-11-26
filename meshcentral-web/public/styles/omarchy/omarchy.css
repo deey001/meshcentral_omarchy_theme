@@ -292,62 +292,107 @@ nav .lbbuttonsel, nav .lbbuttonsel2,
 #p10html2 table, #notesPanel table { background: transparent !important; }
 #p10html2 .altBack { background-color: var(--om-surface0) !important; }
 
-/* Device-group heading row in the device list */
-/* Group header: a Waybar-style row. Flex keeps chevron, name, chips and the node
-   count on one centred line with identical space above and below. */
+/* ---------------------------------------------------------------- Device list
+ * One block for the whole device list, laid out like a terminal table (btop / lazydocker):
+ * every row is the same height, every column is left-aligned under its heading, and
+ * secondary columns are muted. Only CSS: the markup is MeshCentral's own.
+ *   --om-row-h     height of a device row (fits the two-line LAN / WAN address)
+ *   --om-group-h   height of a device-group heading
+ */
+#xdevices { --om-row-h: 32px; --om-group-h: 30px; --om-cell-x: 10px; }
+
+/* ---- Group heading: chevron, name, hover actions, node count on one line */
 #xdevices div.DevSt {
-  display: flex !important; align-items: center; gap: 6px;
-  min-height: 26px; padding: 0 8px 0 4px !important; margin: 0 !important;
-  border-bottom: 1px solid var(--om-border) !important; font-weight: 400 !important;
-}
-#xdevices div.DevSt > span[style*="float"] { order: 99; margin-left: auto; float: none !important; }
-#xdevices div.DevSt:hover { background-color: var(--om-surface0) !important; }
-#xdevices td:has(> div.DevSt), #xdevices td:has(> div > div.DevSt) { padding: 0 !important; }
-#xdevices div.DevSt > i[role="button"] { color: var(--om-subtle) !important; font-size: .75em; width: 1.1em; }
-#xdevices div.DevSt > i[role="button"]:hover { color: var(--om-accent) !important; }
-#xdevices #MxMESH { color: var(--om-accent-text) !important; font-weight: 600; margin-right: 6px; }
-/* "Add Agent" / "Invite" / "Add Local"...: small muted chips, so they don't read as part of the group name */
-#xdevices div.DevSt > a[role="button"] {
-  display: inline-block; vertical-align: 1px;
-  margin-left: 4px; padding: 0 6px;
-  font-size: .7rem; font-weight: 500 !important; line-height: 1.5;
-  text-transform: uppercase; letter-spacing: .05em; text-decoration: none !important;
-  color: var(--om-muted) !important;
-  border: 1px solid var(--om-border) !important;
+  display: flex !important; align-items: center; gap: 8px;
+  height: var(--om-group-h); min-height: 0; margin: 0 !important;
+  padding: 0 var(--om-cell-x) 0 4px !important;
+  font-size: var(--om-text-sm) !important; font-weight: 400 !important; line-height: 1;
+  border-bottom: 1px solid var(--om-border-strong) !important;
   background: transparent !important;
 }
-#xdevices div.DevSt > a[role="button"]:hover, #xdevices div.DevSt > a[role="button"]:focus-visible {
-  color: var(--om-accent) !important; border-color: var(--om-accent) !important;
+#xdevices div.DevSt:hover { background: var(--om-surface0) !important; }
+#xdevices td:has(> div.DevSt), #xdevices td:has(> div > div.DevSt) { padding: 0 !important; height: auto !important; border: 0 !important; }
+/* a little air above every group except the first, so groups read as blocks */
+#xdevices tr:has(div.DevSt):not(:nth-child(2)) > td { padding-top: 10px !important; }
+#xdevices div.DevSt > i[role="button"], #xdevices div.DevSt > .svg-inline--fa {
+  color: var(--om-subtle) !important; font-size: .75em; width: 14px; margin: 0 !important; flex: none;
 }
-/* Device rows: one size for every cell (stock mixes 14px names with 16px user/address
-   cells and "medium"/"large" bars), tabular digits, secondary columns muted */
-#xdevices td, #xdevices #devs, #xdevices #devs .style10, #xdevices .bar18,
-#xdevices #devs .e1t, #xdevices #devs .e2t {
-  font-size: var(--om-text-sm) !important; line-height: 1.5;
+#xdevices div.DevSt > i[role="button"]:hover, #xdevices div.DevSt > .svg-inline--fa:hover { color: var(--om-accent) !important; }
+#xdevices #MxMESH { color: var(--om-accent-text) !important; font-weight: 700 !important; font-size: inherit; margin: 0 !important; text-decoration: none !important; }
+#xdevices div.DevSt > span[style*="float"] { order: 99; margin-left: auto; float: none !important; }
+.devHeaderx { color: var(--om-subtle) !important; background: transparent !important; font-size: .75rem; font-weight: 400 !important; }
+/* "Add Agent / Invite / Add Local...": quiet text actions that show on hover */
+#xdevices div.DevSt a[role="button"] {
+  all: unset; font-size: .75rem !important; color: var(--om-subtle) !important; cursor: pointer;
+  opacity: 0; transition: opacity .12s, color .12s;
 }
-#xdevices td { padding-top: 1px !important; padding-bottom: 1px !important; font-variant-numeric: tabular-nums; }
-#xdevices tr > td:not(:first-child) { color: var(--om-muted) !important; }
-#xdevices tr > td:not(:first-child) a { color: var(--om-muted) !important; }
-#xdevices #devs .style10 { color: var(--om-fg) !important; }
-#xdevices div.DevSt { font-size: var(--om-text-sm) !important; }
-#xdevices div.DevSt > a[role="button"] { margin-left: 0 !important; }
+#xdevices div.DevSt a[role="button"]::before { content: "+ "; }
+#xdevices div.DevSt:hover a[role="button"], #xdevices div.DevSt a[role="button"]:focus-visible { opacity: 1; }
+#xdevices div.DevSt a[role="button"]:hover { color: var(--om-accent) !important; }
 
-/* Footer under the list ("Add Device Group  MeshCmd  Router"): same chips as the headers */
+/* ---- Column headings (list view) */
+#xdevices table:has(tr[name="xxdevice2"]) th {
+  position: sticky; top: 0; z-index: 2;
+  height: 26px; padding: 0 var(--om-cell-x) !important; text-align: left !important; vertical-align: middle;
+  font-size: .68rem !important; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--om-subtle) !important; background: var(--om-bg) !important;
+  border-bottom: 1px solid var(--om-border-strong) !important; white-space: nowrap; overflow: hidden;
+}
+/* the stock 100px columns cut "Agent + Relay" off; give them a few more characters */
+#xdevices table:has(tr[name="xxdevice2"]) th[style*="width:100px"] { width: 128px !important; }
+
+/* ---- Device rows (list view): fixed height, everything centred vertically */
+#xdevices tr[name="xxdevice2"] { height: var(--om-row-h) !important; }
+#xdevices tr[name="xxdevice2"] > td {
+  height: var(--om-row-h); padding: 0 var(--om-cell-x) !important; vertical-align: middle;
+  text-align: left !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: .8rem !important; line-height: 1.25; color: var(--om-muted) !important;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid color-mix(in srgb, var(--om-border) 60%, transparent) !important;
+  background: transparent !important;
+}
+#xdevices tr[name="xxdevice2"] > td:first-child { padding-left: 4px !important; }
+#xdevices tr[name="xxdevice2"]:hover > td { background: var(--om-surface0) !important; }
+#xdevices tr[name="xxdevice2"] > td a { color: var(--om-muted) !important; text-decoration: none !important; }
+#xdevices tr[name="xxdevice2"] > td a:hover { color: var(--om-accent) !important; }
+/* the address cell: LAN on top, WAN below, both in the same compact type */
+#xdevices tr[name="xxdevice2"] > td a { font-size: inherit !important; }
+#xdevices tr[name="xxdevice2"] > td[title*=" / "] { line-height: 1.3; }
+
+/* name cell: checkbox, icon and name as one centred flex row */
+#xdevices tr[name="xxdevice2"] #devs {
+  display: flex !important; align-items: center; gap: 8px;
+  float: none !important; height: auto !important; margin: 0 !important; background: transparent !important;
+}
+#xdevices tr[name="xxdevice2"] #devs:hover, #xdevices tr[name="xxdevice2"] #devs:focus-within { background: transparent !important; }
+#xdevices tr[name="xxdevice2"] .deviceBarCheckbox { float: none; width: auto; display: flex; flex: none; background: transparent !important; }
+#xdevices tr[name="xxdevice2"] .DeviceCheckbox { margin: 0 !important; width: 13px; height: 13px; }
+#xdevices tr[name="xxdevice2"] .deviceBarIcon { float: none; flex: none; display: flex; align-items: center; height: 16px; width: 18px; background: transparent !important; }
+#xdevices tr[name="xxdevice2"] .deviceBarIcon > div { margin: 0 !important; }
+#xdevices tr[name="xxdevice2"] #devs .g1, #xdevices tr[name="xxdevice2"] #devs .g2 { display: none; }
+#xdevices tr[name="xxdevice2"] #devs .style10 {
+  display: block !important; flex: 1 1 auto; min-width: 0; max-height: none !important;
+  font-size: var(--om-text-sm) !important; line-height: var(--om-row-h); color: var(--om-fg) !important;
+}
+#xdevices tr[name="xxdevice2"] #devs .style10:hover { color: var(--om-accent) !important; }
+/* offline devices: dim the name to match the grey icon */
+#xdevices tr[name="xxdevice2"]:has(.deviceBarIcon .gray) #devs .style10 { color: var(--om-subtle) !important; }
+
+/* ---- Other views (tiles, desktops) keep the compact type */
+#xdevices td, #xdevices #devs .e1t, #xdevices #devs .e2t { font-size: var(--om-text-sm) !important; font-variant-numeric: tabular-nums; }
+#xdevices #devs:hover, #xdevices #devs:focus-within { background-color: var(--om-surface0) !important; }
+
+/* ---- Footer under the list ("Add Device Group  MeshCmd  Router"): small chips */
 #xdevices > div[style*="border-top-style"] {
   display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
   margin-top: 0 !important; padding: 10px 4px !important;
-  border-top: 1px solid var(--om-border) !important; font-size: 0 !important; /* hides the &nbsp; spacers */
+  border-top: 0 !important; font-size: 0 !important; /* hides the &nbsp; spacers */
 }
 #xdevices > div[style*="border-top-style"] > a {
   font-size: .7rem; padding: 2px 8px; text-transform: uppercase; letter-spacing: .05em; text-decoration: none !important;
   color: var(--om-muted) !important; border: 1px solid var(--om-border);
 }
 #xdevices > div[style*="border-top-style"] > a:hover { color: var(--om-accent) !important; border-color: var(--om-accent); }
-#xdevices th { font-size: .72rem !important; }
-
-/* one even highlight for the whole device row, instead of the stock per-cell hover patches */
-#xdevices #devs:hover, #xdevices #devs:focus-within { background-color: var(--om-surface0) !important; }
-.devHeaderx { color: var(--om-muted) !important; background: transparent !important; font-size: .8rem; font-weight: 400 !important; }
 
 /* Group headers: the stock grey gradient strips become flat bars with an accent tick */
 .g1, .g1t, .g2, .g2t, .h1, .h2, .e2, .bar, .bar18, .sbar,
@@ -769,6 +814,16 @@ body.is-mobile .mobile-submenu-arrow:hover, body.is-mobile .mobile-submenu-arrow
 #masthead .title { font-size: 13px !important; font-weight: 700 !important; letter-spacing: 0; }
 #masthead .title2 { font-size: 12px !important; }
 #masthead .masthead-title img, #masthead img:not(#userDropdownImage) { max-height: 22px; }
+/* Logo / title centred in the bar (like Waybar's centre module); user menu stays on the right */
+.fullscreen #masthead { position: relative; }
+.fullscreen #masthead .masthead-left {
+  position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%);
+  flex: none; max-width: 60%; align-items: center;
+}
+.fullscreen #masthead .masthead-right { margin-left: auto; }
+#masthead .masthead-titles-container { align-items: center !important; }
+#masthead .title, #masthead .title2 { margin: 0 !important; padding: 0 !important; line-height: 1 !important; }
+#masthead .title2:empty, #masthead .masthead-title:empty { display: none; }
 #userDropdownButton { padding: 2px 8px !important; font-size: 12px; }
 #userDropdownImage { width: 20px !important; height: 20px !important; }
 
@@ -816,36 +871,3 @@ body.is-mobile .mobile-submenu-arrow:hover, body.is-mobile .mobile-submenu-arrow
 }
 #devListToolbarViewIcons .fa-layers, #devListToolbarViewIcons span[role=button] { color: var(--om-subtle) !important; }
 #devListToolbarViewIcons span[role=button]:hover { color: var(--om-fg) !important; }
-
-/* group heading rows */
-#xdevices div.DevSt {
-  border-bottom: 1px solid var(--om-border) !important;
-  padding: 4px 4px 3px 4px !important;
-  line-height: 1.4;
-}
-#xdevices div.DevSt:hover { background: var(--om-surface0) !important; }
-#xdevices #MxMESH { color: var(--om-fg) !important; font-weight: 600 !important; font-size: 13px; text-decoration: none !important; }
-#xdevices div.DevSt > .svg-inline--fa, #xdevices div.DevSt > i { color: var(--om-subtle) !important; width: 14px; margin-right: 6px; }
-#xdevices div.DevSt .devHeaderx { font-size: 11px; color: var(--om-subtle) !important; }
-
-/* "Add Agent / Invite" etc.: quiet text actions that appear on hover */
-#xdevices div.DevSt a[role="button"] {
-  all: unset;
-  margin-left: 12px !important;
-  font-size: 11px !important;
-  color: var(--om-subtle) !important;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity .12s, color .12s;
-}
-#xdevices div.DevSt a[role="button"]::before { content: "+ "; }
-#xdevices div.DevSt:hover a[role="button"], #xdevices div.DevSt a[role="button"]:focus-visible { opacity: 1; }
-#xdevices div.DevSt a[role="button"]:hover { color: var(--om-accent) !important; }
-
-/* device rows */
-#xdevices tr.DevSt, #xdevices .DevSt + table tr { border-bottom: 0 !important; }
-#xdevices tr.DevSt td, #xdevices table td { padding-top: 5px !important; padding-bottom: 5px !important; border-bottom: 1px solid color-mix(in srgb, var(--om-border) 55%, transparent) !important; }
-#xdevices tr:hover > td { background: var(--om-surface0) !important; }
-#xdevices td a, #xdevices .DevSt a:not([role]) { color: var(--om-fg) !important; text-decoration: none !important; }
-#xdevices td a:hover { color: var(--om-accent) !important; }
-#xdevices th { font-size: 10px !important; color: var(--om-subtle) !important; padding: 6px 4px !important; border-bottom: 1px solid var(--om-border) !important; }
