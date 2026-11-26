@@ -814,13 +814,8 @@ body.is-mobile .mobile-submenu-arrow:hover, body.is-mobile .mobile-submenu-arrow
 #masthead .title { font-size: 13px !important; font-weight: 700 !important; letter-spacing: 0; }
 #masthead .title2 { font-size: 12px !important; }
 #masthead .masthead-title img, #masthead img:not(#userDropdownImage) { max-height: 22px; }
-/* Logo / title centred in the bar (like Waybar's centre module); user menu stays on the right */
-.fullscreen #masthead { position: relative; }
-.fullscreen #masthead .masthead-left {
-  position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%);
-  flex: none; max-width: 60%; align-items: center;
-}
-.fullscreen #masthead .masthead-right { margin-left: auto; }
+/* Logo / title on the left, vertically centred in the bar */
+#masthead .masthead-left { align-self: stretch; align-items: center; padding-left: var(--om-gap); }
 #masthead .masthead-titles-container { align-items: center !important; }
 #masthead .title, #masthead .title2 { margin: 0 !important; padding: 0 !important; line-height: 1 !important; }
 #masthead .title2:empty, #masthead .masthead-title:empty { display: none; }
